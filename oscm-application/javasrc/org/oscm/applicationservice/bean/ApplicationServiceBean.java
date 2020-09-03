@@ -360,9 +360,10 @@ public class ApplicationServiceBean implements ApplicationServiceLocal {
         try {
             getPort(techProduct).sendPing("ping");
         } catch (TechnicalServiceNotAliveException e) {
+            String infoNotAlive = localizer.getLocalizedTextFromBundle(
+                    LocalizedObjectTypes.EVENT_DESC, null, "en", "INFO_DESC.0");
             FacesMessage message =
-                    new FacesMessage("Provisioning service URL is not responding, " +
-                            "check that the given link is correct and if there is a connection to the service.");
+                    new FacesMessage(infoNotAlive);
             FacesContext.getCurrentInstance().addMessage(null, message);
             throw e;
         } catch (Throwable e) {
