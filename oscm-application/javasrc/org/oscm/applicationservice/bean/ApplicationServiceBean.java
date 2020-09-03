@@ -362,10 +362,10 @@ public class ApplicationServiceBean implements ApplicationServiceLocal {
         try {
             getPort(techProduct).sendPing("ping");
         } catch (TechnicalServiceNotAliveException e) {
-            String msg = JSFUtils
-                    .getText(BaseBean.ERROR_TENANT_NO_LONGER_EXISTS, null);
-            new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, msg, null);
+            FacesMessage message =
+                    new FacesMessage("Provisioning service URL is not responding, " +
+                            "check that the given link is correct and if there is a connection to the service.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             throw e;
         } catch (Throwable e) {
             throw convertThrowable(e);
