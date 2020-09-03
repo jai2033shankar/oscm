@@ -101,6 +101,9 @@ public class ApplicationServiceBean implements ApplicationServiceLocal {
     @EJB(beanInterface = DataService.class)
     DataService ds;
 
+    @EJB
+    protected DataService dataManager;
+
     @Inject
     Producer kafkaProducer;
 
@@ -360,8 +363,9 @@ public class ApplicationServiceBean implements ApplicationServiceLocal {
         try {
             getPort(techProduct).sendPing("ping");
         } catch (TechnicalServiceNotAliveException e) {
+            String localeString = dataManager.getCurrentUser().getLocale();
             String infoNotAlive = localizer.getLocalizedTextFromBundle(
-                    LocalizedObjectTypes.EVENT_DESC, null, "en", "EVENT_DESC.0");
+                    LocalizedObjectTypes.EVENT_DESC, null, localeString, "EVENT_DESC.0");
             FacesMessage message =
                     new FacesMessage(infoNotAlive);
             FacesContext.getCurrentInstance().addMessage(null, message);
