@@ -361,7 +361,7 @@ public class ApplicationServiceBean implements ApplicationServiceLocal {
             getPort(techProduct).sendPing("ping");
         } catch (TechnicalServiceNotAliveException e) {
             String infoNotAlive = localizer.getLocalizedTextFromBundle(
-                    LocalizedObjectTypes.EVENT_DESC, null, "en", "INFO_DESC.0");
+                    LocalizedObjectTypes.EVENT_DESC, null, null, "EVENT_DESC.0");
             FacesMessage message =
                     new FacesMessage(infoNotAlive);
             FacesContext.getCurrentInstance().addMessage(null, message);
