@@ -73,6 +73,8 @@ import org.oscm.provisioning.data.UserResult;
 import org.oscm.types.constants.Configuration;
 import org.oscm.types.enumtypes.LogMessageIdentifier;
 import org.oscm.types.enumtypes.ProvisioningType;
+import org.oscm.ui.beans.BaseBean;
+import org.oscm.ui.common.JSFUtils;
 import org.oscm.validator.BLValidator;
 
 /**
@@ -348,10 +350,6 @@ public class ApplicationServiceBean implements ApplicationServiceLocal {
     public void validateCommunication(TechnicalProduct techProduct)
             throws TechnicalServiceNotAliveException {
 
-        FacesMessage message =
-                new FacesMessage("Provisioning service URL is not responding, " +
-                        "check that the given link is correct and if there is a connection to the service.");
-
         if (techProduct.getAccessType() == ServiceAccessType.EXTERNAL) {
             return;
         }
@@ -364,7 +362,10 @@ public class ApplicationServiceBean implements ApplicationServiceLocal {
         try {
             getPort(techProduct).sendPing("ping");
         } catch (TechnicalServiceNotAliveException e) {
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            String msg = JSFUtils
+                    .getText(BaseBean.ERROR_TENANT_NO_LONGER_EXISTS, null);
+            new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, msg, null);
             throw e;
         } catch (Throwable e) {
             throw convertThrowable(e);
